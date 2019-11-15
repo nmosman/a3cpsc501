@@ -105,6 +105,9 @@ public class Serializer {
 	public static Element serializeFields(Object obj, Document doc, IdentityHashMap hMap, Element classElem) throws IllegalArgumentException, IllegalAccessException
 	{
 		Class clazz = obj.getClass();
+		Element fieldElem;
+		Element valElem;
+		Element refElem;
 		
 		Field[] fields = clazz.getDeclaredFields();
 		for(Field f : fields)
@@ -116,9 +119,9 @@ public class Serializer {
 
 			
 				System.out.println(f.getName());
-				Element fieldElem = new Element("field");
-				Element valElem = new Element("value");
-				Element refElem = new Element("reference");
+				fieldElem = new Element("field");
+				valElem = new Element("value");
+				refElem = new Element("reference");
 				
 				
 				//now we need to check if field is primitive or a reference
@@ -132,9 +135,10 @@ public class Serializer {
 			}
 			else
 			{
-				Element fieldElem = new Element("null");
+				 fieldElem = new Element("null");
 			}
 			
+			classElem.addContent(fieldElem);
 			Element el = new Element(f.getName());
 			el.setAttribute("Modifier", String.valueOf(f.getModifiers()));
 			el.setAttribute("Type", f.getType().getName() );
