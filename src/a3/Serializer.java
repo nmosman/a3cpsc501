@@ -11,11 +11,11 @@ public class Serializer {
 		
 		Element root = new Element("serialized");
 		Document doc = new Document(root);
-	    IdentityHashMap objMap = new IdentityHashMap<>();
+	    IdentityHashMap hMap = new IdentityHashMap<>();
 		
 	    
 	    
-	    return null;
+	    return serializeClass(obj, doc, hMap);
 	}
 	
 	
@@ -102,7 +102,7 @@ public class Serializer {
 		
 		return doc;
 	}
-	public static Element serializeFields(Object obj, Document doc, IdentityHashMap hMap, Element classElem) throws IllegalArgumentException, IllegalAccessException
+	public static void serializeFields(Object obj, Document doc, IdentityHashMap hMap, Element classElem) throws IllegalArgumentException, IllegalAccessException
 	{
 		Class clazz = obj.getClass();
 		Element fieldElem;
@@ -122,7 +122,11 @@ public class Serializer {
 				fieldElem = new Element("field");
 				valElem = new Element("value");
 				refElem = new Element("reference");
+				String className = f.getDeclaringClass().getName();
+				String fieldName = f.getName();
 				
+				fieldElem.setAttribute("name", fieldName);
+				fieldElem.setAttribute("declaring class", className);
 				
 				//now we need to check if field is primitive or a reference
 				
@@ -130,7 +134,19 @@ public class Serializer {
 				
 				if(fieldType.isPrimitive())
 				{
+					String fieldVal = f.get(obj).toString();
+					valElem.addContent(fieldVal);
+					fieldElem.setContent(valElem);
+				}
+				
+				else
+				{
+					String id = Integer.toString(hMap.size());
+					refElem.addContent(id);
+					fieldElem.setContent(refElem);
 					
+					// run serialize class on reference object
+					serializeClass(f.get(obj), doc, hMap);
 				}
 			}
 			else
@@ -139,20 +155,7 @@ public class Serializer {
 			}
 			
 			classElem.addContent(fieldElem);
-			Element el = new Element(f.getName());
-			el.setAttribute("Modifier", String.valueOf(f.getModifiers()));
-			el.setAttribute("Type", f.getType().getName() );
-
-			try {
-				el.setText(String.valueOf(f.get(obj)));
-
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
 			
 		}
-		
-		return null;
 	}
-
 }
