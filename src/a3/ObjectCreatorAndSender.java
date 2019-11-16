@@ -298,7 +298,7 @@ public class ObjectCreatorAndSender {
 	{
 		Document doc;
 		String hostName = "127.0.0.1";
-		int portNumber = 8888;
+		int portNumber = 5557;
 	
 		boolean running = true;
 		
