@@ -3,6 +3,11 @@ import org.jdom2.*;
 import java.lang.reflect.*;
 import java.util.*;
 
+
+//to prevent cannot set static final long.. error, we use a hack from
+//https://stackoverflow.com/questions/3301635/change-private-static-final-field-using-java-reflection
+
+
 public class Deserializer {
 
 	public static Object deserialize(Document doc)
@@ -174,6 +179,9 @@ public class Deserializer {
 						
 						field.setAccessible(true);
 						
+						Field modifiersField = Field.class.getDeclaredField("modifiers");
+						modifiersField.setAccessible(true);
+						modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 						Class fieldType = field.getType();
 						Element fieldElemContent = (Element) fieldElem.getChildren().get(0);
 						

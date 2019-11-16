@@ -11,6 +11,10 @@ import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+
+/*
+ * Main client program that provides the UI to the user and sends the serialized objects to the server
+ */
 public class ObjectCreatorAndSender {
 
 	private static ArrayList<Object> createdObjects = new ArrayList<Object>();

@@ -18,6 +18,10 @@ import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+
+/*
+ * Server that receives the objects sent from the client program
+ */
 public class ReceiveServer extends Thread {
 	private Socket sock;
 	private ServerSocket serverSock;
