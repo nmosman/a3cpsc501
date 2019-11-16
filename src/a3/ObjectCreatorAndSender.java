@@ -70,6 +70,147 @@ public class ObjectCreatorAndSender {
 	}
 
 
+	public static SimpleArrayObject makeSimpleArrayObject()
+	{
+		SimpleArrayObject s = null;
+
+		System.out.println("Now we create an object containing an array of ints!");
+		System.out.println("But first, how many integers will you be entering in?");
+
+
+		try
+		{
+			Scanner input = new Scanner(System.in);
+
+			while(!input.hasNextInt())
+			{
+				input.next();
+				System.out.println("Please enter in a valid integer for array length!");
+			}
+
+			int arrayLength = input.nextInt();
+
+			int [] intArray = new int[arrayLength];
+
+			System.out.println("Great, now enter in your values:");
+			//Now let's get the integer values for each element of array
+			for(int i = 0; i < arrayLength; i++)
+			{
+				while(!input.hasNextInt())
+				{
+					input.next();
+					System.out.println("Please enter in a valid integer for the " + i + " th element!");
+				}
+				intArray[i] = input.nextInt();
+			}
+
+			s = new SimpleArrayObject(intArray);
+
+			System.out.println("Array of Primitives (Ints) succesfully created!");
+
+		}
+
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return s;
+
+	}
+
+	public static ReferenceArrayObject makeReferenceArrayObject()
+	{
+		ReferenceArrayObject r = null;
+
+		System.out.println("Creating an array of SimpleObjects for our example of an array of references!");
+		System.out.println("But first, how many objects would you like to enter?");
+
+
+		try
+		{
+			Scanner input = new Scanner(System.in);
+
+			while(!input.hasNextInt())
+			{
+				input.next();
+				System.out.println("Please enter in a valid integer for array length!");
+			}
+
+			int arrayLength = input.nextInt();
+
+			Object [] objArray = new Object[arrayLength];
+
+			System.out.println("Great, now we'll create a simple object " + arrayLength + " times");
+			//Now let's get the integer values for each element of array
+			for(int i = 0; i < arrayLength; i++)
+			{
+
+				objArray[i] = makeSimpleObject();
+			}
+
+			r = new ReferenceArrayObject(objArray);
+
+			System.out.println("Array of Primitives (Ints) succesfully created!");
+
+		}
+
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return r;
+	}
+
+
+	public static CollectionObject makeCollectionObject() {
+		CollectionObject c = null;
+		ArrayList<SimpleObject> soList = new ArrayList<>();
+		System.out.println("Now creating a collection of Simple Objects using ArrayLists!");
+
+		System.out.println("But first, how many objects would you like to enter?");
+
+
+		try
+		{
+			Scanner input = new Scanner(System.in);
+
+			while(!input.hasNextInt())
+			{
+				input.next();
+				System.out.println("Please enter in a valid integer for number of objects to enter!");
+			}
+
+			int numOfObjs = input.nextInt();
+
+
+
+			System.out.println("Great, now we'll create a simple object " + numOfObjs + " times");
+			//Now let's get the integer values for each element of array
+			for(int i = 0; i < numOfObjs; i++)
+			{
+				soList.add(makeSimpleObject());
+
+			}
+
+			c = new CollectionObject(soList);
+
+			System.out.println("Collection of Simple Objects succesfully created!");
+
+		}
+
+
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+
+
+		return c;
+	}
 	public static void main(String[] args)
 	{
 		Document doc;
@@ -117,15 +258,21 @@ public class ObjectCreatorAndSender {
 				break;
 			case 2:
 				ReferenceObject r = makeReferenceObject();
-				createdObjects.add(r)
+				createdObjects.add(r);
 				break;
 			case 3:
+				SimpleArrayObject sa = makeSimpleArrayObject();
+				createdObjects.add(sa);
 				break;
 
 			case 4:
+				ReferenceArrayObject ra = makeReferenceArrayObject();
+				createdObjects.add(ra);
 				break;
 
 			case 5:
+				CollectionObject c = makeCollectionObject();
+				createdObjects.add(c);
 				break;
 
 			case 6:
