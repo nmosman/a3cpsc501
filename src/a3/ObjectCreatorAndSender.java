@@ -5,61 +5,168 @@ import org.jdom2.*;
 
 public class ObjectCreatorAndSender {
 
-	
+	private static ArrayList<Object> createdObjects = new ArrayList<Object>();
+
+	public static SimpleObject makeSimpleObject()
+	{
+
+		SimpleObject s = null;
+		System.out.println("Making a Simple Object(int val1, double val2)\nFirst number must be an int"
+				+ "\nsecond must be a double!");
+		try {
+			Scanner input = new Scanner(System.in);
+
+			while(!input.hasNextInt())
+			{
+				input.next();
+				System.out.println("Please enter in a valid integer for val1");
+			}
+
+			int val1 = input.nextInt();
+
+			System.out.println("Now enter in double for val2");
+
+			while(!input.hasNextDouble())
+			{
+				input.next();
+				System.out.println("Please enter in a valid doublefor val2");
+			}
+
+			double val2 = input.nextDouble();
+
+			s = new SimpleObject(val1, val2);
+
+			System.out.println("Simple Object succesfully created!");
+
+
+
+
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return s;
+	}
+
+
+
+	public static ReferenceObject makeReferenceObject()
+	{
+		ReferenceObject r = null;
+
+		// Use the simple object method to let user create type of simple object
+
+		System.out.println("Making a ReferenceObject with a SimpleObject inside\n"
+				+ "You will be prompted to enter values for this SimpleObject!");
+
+		SimpleObject s = makeSimpleObject();
+
+		r = new ReferenceObject(s);
+
+		System.out.println("ReferenceObject succesfully created!");
+
+		return r;
+	}
+
+
 	public static void main(String[] args)
 	{
 		Document doc;
 		String hostname = "127.0.0.1";
 		int portNumber = 8888;
-	
-		
-		
-		
-		System.out.println("Welcome to the Object Creator Tool v.0.0.1!\n\n"
-				+ "For creating a Simple Object, press (1)\n"
-				+ "For creating a Reference Object, press (2)\n"
-				+ "For creating an Array of Primitives, press (3)\n"
-				+ "For creating an Array of Reference Types, press (4)\n"
-				+ "For creating a Collection of Objects, press (5)\n"
-				+ "Or, press (0) to quit the tool");
-		
-		//Create objects
-		
-		
-		Scanner input = new Scanner(System.in);
-		while(!input.hasNextInt())
-		{
-			input.next();
-			System.out.println("Not a valid choice!");
-		}
-		int choice = input.nextInt();
-		
-		//Serialize objects
-		Serializer serializer = new Serializer();
-		//doc = serializer.serialize(objects);
-		
-		//Open a socket and send the data
-		/*
-		try
-		{
-		
-			//Open a socket
-			Socket socket = new Socket(hostname, portNumber);
-			OutputStream socketOut = socket.getOutputStream();
-			
-			//Transmit the data
-			XMLOutputter xmlOut = new XMLOutputter();
-			
-			xmlOut.output(doc, socketOut);
 
-			//Close the socket
-			socket.close();			
-		}
-		catch(IOException e)
+		boolean running = true;
+
+		while(running)
 		{
-			System.out.println(e);
+
+			System.out.println("Welcome to the Object Creator Tool v.0.0.1!\n\n"
+					+ "For creating a Simple Object, press (1)\n"
+					+ "For creating a Reference Object, press (2)\n"
+					+ "For creating an Array of Primitives, press (3)\n"
+					+ "For creating an Array of Reference Types, press (4)\n"
+					+ "For creating a Collection of Objects, press (5)\n"
+					+ "To see the objects created so far, press (6)\n"
+					+ "To serialize and send what you've created, press (7)\n"
+
+					+ "Or, press (0) to quit the tool");
+
+			//Create objects
+
+
+			Scanner input = new Scanner(System.in);
+			while(!input.hasNextInt())
+			{
+				input.next();
+				System.out.println("Not a valid choice!");
+			}
+			int choice = input.nextInt();
+
+
+
+			switch(choice)
+			{
+			case 0:
+				System.out.println("Ending Object Creator Tool...");
+				System.exit(0);
+
+			case 1:
+				SimpleObject s = makeSimpleObject();
+				createdObjects.add(s);
+				break;
+			case 2:
+				ReferenceObject r = makeReferenceObject();
+				createdObjects.add(r)
+				break;
+			case 3:
+				break;
+
+			case 4:
+				break;
+
+			case 5:
+				break;
+
+			case 6:
+				System.out.println(createdObjects);
+				break;
+			case 7:
+				running = false;
+				break;
+			default:
+				System.out.println("Choose a menu choice between 0-7");
+				break;
+			}
+			//Serialize objects
+			Serializer serializer = new Serializer();
+			//doc = serializer.serialize(objects);
+
+			//Open a socket and send the data
+			/*
+			try
+			{
+
+				//Open a socket
+				Socket socket = new Socket(hostname, portNumber);
+				OutputStream socketOut = socket.getOutputStream();
+
+				//Transmit the data
+				XMLOutputter xmlOut = new XMLOutputter();
+
+				xmlOut.output(doc, socketOut);
+
+				//Close the socket
+				socket.close();
+			}
+			catch(IOException e)
+			{
+				System.out.println(e);
+			}
+			*/
 		}
-		*/
+
+
 	//}
 	}
 }
