@@ -126,7 +126,7 @@ public class Serializer {
 				String fieldName = f.getName();
 				
 				fieldElem.setAttribute("name", fieldName);
-				fieldElem.setAttribute("declaring class", className);
+				fieldElem.setAttribute("declaringclass", className);
 				
 				//now we need to check if field is primitive or a reference
 				
